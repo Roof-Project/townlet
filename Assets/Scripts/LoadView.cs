@@ -1,17 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LoadView : MonoBehaviour
 {
-    public void LoadMap()
+    private Animator panelAnim;
+
+    private void Start()
     {
-        SceneManager.LoadScene(1);
+        panelAnim = GetComponent<Animator>();
     }
 
-    public void LoadCam()
+    public void Hide()
     {
-        SceneManager.LoadScene(0);
+        panelAnim.Play("hide");
+    }
+
+    public void Show()
+    {
+        panelAnim.Play("show");
     }
 }
