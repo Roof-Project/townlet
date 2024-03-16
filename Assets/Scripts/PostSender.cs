@@ -58,6 +58,8 @@ public class PostSender : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textArea;
     [SerializeField] private TMP_InputField textField;
 
+    [SerializeField] private Animator anim;
+
     public Dictionary<string, string> myDictionary = new Dictionary<string, string>();
 
     private void Start()
@@ -102,7 +104,8 @@ public class PostSender : MonoBehaviour
                 textArea.text = "Центральный парк культуры и отдыха имени Гагарина – отличное место для прогулок на свежем воздухе.";
             break;
         }
-        
+
+        anim.Play("Armature|Speaking");
     }
 
     public void SendData() => StartCoroutine(SendRequest());
@@ -143,6 +146,7 @@ public class PostSender : MonoBehaviour
 
             textArea.text = www.downloadHandler.text;
             print(www.downloadHandler.text);
+            anim.Play("Armature|Speaking");
 
         }
     }
