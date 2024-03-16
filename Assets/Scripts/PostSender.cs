@@ -7,7 +7,9 @@ using TMPro;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Net;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 
 class WeatherData
@@ -54,12 +56,14 @@ public class PostSender : MonoBehaviour
     private string jsonFilePath = Path.Combine(Application.streamingAssetsPath, "q_amp_amp_a.json");
 
     [SerializeField] private TextMeshProUGUI textArea;
-
+    [SerializeField] private TMP_InputField textField;
 
     public Dictionary<string, string> myDictionary = new Dictionary<string, string>();
 
     private void Start()
     {
+
+        ServicePointManager.ServerCertificateValidationCallback = (a, b, c, d) => true;
         
         string jsonText = File.ReadAllText(jsonFilePath);
 
@@ -82,8 +86,8 @@ public class PostSender : MonoBehaviour
     {
         switch (question)
         {
-            case "Где в Челябинске можно вкусно поесть?":
-                textArea.text = "В Челябинске множество отличных ресторанов, включая 'Гранатовый сад' для любителей кавказской кухни и 'Trattoria Formaggi' для ценителей итальянских блюд.";
+            case "Что это за памятник?":
+                textArea.text = "Памятник Курчатову — памятник знаменитому физику-ядерщику Игорю Васильевичу Курчатову был открыт в 1986 году к 250-летию Челябинска на вновь созданной площади Науки около здания Южно-Уральского государственного университета";
             break;
             case "Какие музеи стоит посетить в Челябинске?":
                 textArea.text = "Не пропустите Челябинский областной краеведческий музей и Музей изобразительных искусств.";
@@ -120,16 +124,26 @@ public class PostSender : MonoBehaviour
 
     private IEnumerator SendRequest()
     {
+
         WWWForm form = new WWWForm();
-        form.AddField("text", textArea.text);
+        form.AddField("text", textField.text);
 
-        UnityWebRequest request = UnityWebRequest.Post(this.url, form);
+        using (UnityWebRequest www = UnityWebRequest.Post(url, form))
+        {
+            yield return www.SendWebRequest();
 
-        yield return request.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Error: " + www.error);
+            }
+            else
+            {
+                Debug.Log("Post request sent successfully");
+            }
 
-        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-            textArea.text = request.error;
-        else
-            textArea.text = "Text sent to server successfully!";
+            textArea.text = www.downloadHandler.text;
+            print(www.downloadHandler.text);
+
+        }
     }
 }
