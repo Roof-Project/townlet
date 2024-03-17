@@ -12,6 +12,7 @@ using Unity.VisualScripting;
 using UnityEngine.UIElements;
 
 
+
 class WeatherData
 {
     public MainData main { get; set; }
@@ -61,6 +62,7 @@ public class PostSender : MonoBehaviour
     [SerializeField] private Animator anim;
 
     public Dictionary<string, string> myDictionary = new Dictionary<string, string>();
+    bool sizeText;
 
     private void Start()
     {
@@ -82,6 +84,19 @@ public class PostSender : MonoBehaviour
             textArea.text += "2";
         }
         textArea.text += "3";
+    }
+
+    public void SizeText()
+    {
+        if(sizeText == false){
+            textArea.fontSize = 10;
+            sizeText = !sizeText;
+        }
+        if(sizeText == true){
+            textArea.fontSize = 99999;
+            sizeText = !sizeText;
+        }
+        
     }
 
     public void SendQuestion(string question)
@@ -106,7 +121,10 @@ public class PostSender : MonoBehaviour
         }
 
         anim.Play("Armature|Speaking");
+        
     }
+
+    public void Voice(){}
 
     public void SendData() => StartCoroutine(SendRequest());
 
@@ -147,7 +165,7 @@ public class PostSender : MonoBehaviour
             textArea.text = www.downloadHandler.text;
             print(www.downloadHandler.text);
             anim.Play("Armature|Speaking");
-
+            
         }
     }
 }

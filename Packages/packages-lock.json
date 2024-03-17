@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.lmnt.unity": {
+      "version": "file:com.lmnt.unity",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.ptc.vuforia.engine": {
       "version": "file:com.ptc.vuforia.engine-10.21.3.tgz",
       "depth": 0,
