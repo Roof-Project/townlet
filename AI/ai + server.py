@@ -8,7 +8,7 @@ app = Flask(__name__)
 def ask_question():
     data = request.get_json()
     prompt = {
-        "modelUri": "gpt://b1gfhek62pcgfbigbi98/yandexgpt-lite",
+        "modelUri": "gpt://ВВЕСТИ СВОЙ/yandexgpt-lite",
         "completionOptions": {
             "stream": False,
             "temperature": 0.5,
@@ -25,7 +25,7 @@ def ask_question():
     url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Api-Key AQVN2kktMkL6lCdABtSsV_ZrcKgJIa95_vHiC8zm"
+        "Authorization": "Api-Key ВВЕСТИ СВОЙ"
     }
 
     response = requests.post(url, headers=headers, json=prompt)
